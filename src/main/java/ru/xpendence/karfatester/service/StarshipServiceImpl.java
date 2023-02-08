@@ -2,7 +2,6 @@ package ru.xpendence.karfatester.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,13 +10,7 @@ import ru.xpendence.karfatester.dto.StarshipDto;
 
 import java.time.LocalTime;
 
-/**
- * Author: Vyacheslav Chernyshov
- * Date: 14.02.19
- *  e-mail: 2262288@gmail.com
- */
 @Service
-@Slf4j
 public class StarshipServiceImpl implements StarshipService {
 
     private final KafkaTemplate<Long, StarshipDto> kafkaStarshipTemplate;
@@ -34,12 +27,12 @@ public class StarshipServiceImpl implements StarshipService {
     @Override
     public void produce() {
         StarshipDto dto = createDto();
-        log.info("<= sending {}", writeValueAsString(dto));
-        kafkaStarshipTemplate.send("test", dto);
+        System.out.println("<= sending {}" + writeValueAsString(dto));
+        kafkaStarshipTemplate.send("server.starship", dto);
     }
 
     private StarshipDto createDto() {
-        return new StarshipDto("Starship " + (LocalTime.now().toNanoOfDay() / 1000000));
+        return new StarshipDto("Starship " + (LocalTime.now().toNanoOfDay() / 1000000), null);
     }
 
     private String writeValueAsString(StarshipDto dto) {

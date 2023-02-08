@@ -1,7 +1,6 @@
 spring:
-
-  profiles:
-    active: dev
+profiles:
+  active: dev
 
 server:
-  port: 8081
+  port: 8082
